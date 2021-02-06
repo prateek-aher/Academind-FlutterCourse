@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:quiz_app/answer.dart';
 import 'question.dart';
+import 'result.dart';
+import 'quiz.dart';
 
 class HomePage extends StatefulWidget {
   @override
@@ -10,7 +12,7 @@ class HomePage extends StatefulWidget {
 class _HomePageState extends State<HomePage> {
   int _qIndex = 0;
 
-  var questions = const [
+  var _questions = const [
     {
       'question': 'What is your favorite color?',
       'answers': ['Red', 'Green', 'Blue', 'Pink'],
@@ -26,10 +28,11 @@ class _HomePageState extends State<HomePage> {
   ];
 
   void _answerQuestion() {
-    setState(() {
-      _qIndex = (_qIndex < questions.length - 1) ? ++_qIndex : _qIndex;
-    });
-    print('Answered !!');
+    if (_qIndex < _questions.length) {
+      setState(() {
+        _qIndex++;
+      });
+    }
   }
 
   @override
@@ -41,15 +44,9 @@ class _HomePageState extends State<HomePage> {
         title: Text('Quiz Mania'),
         centerTitle: true,
       ),
-      body: Column(
-        mainAxisAlignment: MainAxisAlignment.center,
-        children: <Widget>[
-          Question(questions[_qIndex]['question']),
-          ...(questions[_qIndex]['answers'] as List<String>)
-              .map((answer) => Answer(_answerQuestion, answer))
-              .toList(),
-        ],
-      ),
+      body: (_qIndex < _questions.length)
+          ? Quiz(_questions, _qIndex, _answerQuestion)
+          : Result(),
     );
   }
 }
