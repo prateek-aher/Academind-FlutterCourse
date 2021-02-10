@@ -3,9 +3,9 @@ import 'question.dart';
 import 'answer.dart';
 
 class Quiz extends StatelessWidget {
-  var _qIndex;
-  List<Map<String, dynamic>> _qList;
-  Function _selectHandler;
+  final int _qIndex;
+  final List<Map<String, dynamic>> _qList;
+  final Function _selectHandler;
 
   Quiz(this._qList, this._qIndex, this._selectHandler);
 
@@ -15,8 +15,9 @@ class Quiz extends StatelessWidget {
       mainAxisAlignment: MainAxisAlignment.center,
       children: <Widget>[
         Question(_qList[_qIndex]['question']),
-        ...(_qList[_qIndex]['answers'] as List<String>)
-            .map((answer) => Answer(_selectHandler, answer))
+        ...(_qList[_qIndex]['answers'] as List<Map<String, Object>>)
+            .map((answer) =>
+                Answer(() => _selectHandler(answer['score']), answer['text']))
             .toList(),
       ],
     );

@@ -1,6 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:quiz_app/answer.dart';
-import 'question.dart';
 import 'result.dart';
 import 'quiz.dart';
 
@@ -10,27 +8,44 @@ class HomePage extends StatefulWidget {
 }
 
 class _HomePageState extends State<HomePage> {
-  int _qIndex = 0;
-
-  var _questions = const [
+  int index = 0;
+  int totalScore = 0;
+  List<Map<String, dynamic>> questionsList = const [
     {
       'question': 'What is your favorite color?',
-      'answers': ['Red', 'Green', 'Blue', 'Pink'],
+      'answers': [
+        {'text': 'Red', 'score': 1},
+        {'text': 'Green', 'score': -1},
+        {'text': 'Blue', 'score': -1},
+        {'text': 'Pink', 'score': -1}
+      ],
     },
     {
       'question': 'What is your favorite animal?',
-      'answers': ['Cat', 'Dog', 'Snake', 'Elephant'],
+      'answers': [
+        {'text': 'Cat', 'score': -1},
+        {'text': 'Dog', 'score': 1},
+        {'text': 'Snake', 'score': -1},
+        {'text': 'Elephant', 'score': -1}
+      ],
     },
     {
       'question': 'What is your Nationality?',
-      'answers': ['Greek', 'Indian', 'Irish', 'Scottish'],
+      'answers': [
+        {'text': 'Greek', 'score': -1},
+        {'text': 'Indian', 'score': -1},
+        {'text': 'Irish', 'score': 1},
+        {'text': 'Scottish', 'score': -1}
+      ],
     },
   ];
 
-  void _answerQuestion() {
-    if (_qIndex < _questions.length) {
+  void answerQuestion(int score) {
+    totalScore += score;
+
+    if (index < questionsList.length) {
       setState(() {
-        _qIndex++;
+        index++;
       });
     }
   }
@@ -44,9 +59,9 @@ class _HomePageState extends State<HomePage> {
         title: Text('Quiz Mania'),
         centerTitle: true,
       ),
-      body: (_qIndex < _questions.length)
-          ? Quiz(_questions, _qIndex, _answerQuestion)
-          : Result(),
+      body: (index < questionsList.length)
+          ? new Quiz(questionsList, index, answerQuestion)
+          : Result(totalScore),
     );
   }
 }
