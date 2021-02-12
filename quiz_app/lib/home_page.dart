@@ -50,6 +50,12 @@ class _HomePageState extends State<HomePage> {
     }
   }
 
+  void _restart() {
+    setState(() {
+      index = totalScore = 0;
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -61,7 +67,7 @@ class _HomePageState extends State<HomePage> {
       ),
       body: (index < questionsList.length)
           ? new Quiz(questionsList, index, answerQuestion)
-          : Result(totalScore),
+          : Result(totalScore, _restart),
     );
   }
 }
