@@ -42,7 +42,6 @@ class _HomePageState extends State<HomePage> {
 
   void answerQuestion(int score) {
     totalScore += score;
-
     if (index < questionsList.length) {
       setState(() {
         index++;
