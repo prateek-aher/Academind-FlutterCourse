@@ -15,7 +15,7 @@ class _AppState extends State<App> {
       dateTime: DateTime.now(),
       id: 't1',
       title: 'New shoes',
-      amount: 69,
+      amount: 699999,
     ),
     Transaction(
       amount: 16,
@@ -24,6 +24,10 @@ class _AppState extends State<App> {
       title: 'Weekly Groceries',
     ),
   ];
+  List<Transaction> get _recentTransactions => _userTransactions
+      .where((element) =>
+          element.dateTime.isAfter(DateTime.now().subtract(Duration(days: 7))))
+      .toList();
 
   void _addNewTransaction(String title, int amount) {
     final Transaction newtx = Transaction(
@@ -67,7 +71,7 @@ class _AppState extends State<App> {
           crossAxisAlignment: CrossAxisAlignment.stretch,
           children: <Widget>[
             // chart
-            Chart(),
+            Chart(_recentTransactions),
             TransactionsList(_userTransactions),
           ],
         ),
